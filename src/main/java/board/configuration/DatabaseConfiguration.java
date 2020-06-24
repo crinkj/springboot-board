@@ -39,14 +39,22 @@ public class DatabaseConfiguration {
 			SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 			sqlSessionFactoryBean.setDataSource(dataSource);
 			sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/mapper/**/sql-*.xml"));
+			sqlSessionFactoryBean.setConfiguration(mybatisConfig());
 			
 			return sqlSessionFactoryBean.getObject();
 		}
 		@Bean
 		
+		// 꼭  terminal에서 mysql server start 하고  GRANT ALL PRIVILEGES ON board.* TO 'board'@'localhost' IDENTIFIED BY '1234'; 권한을데이타베이스 정해놓고 다줘야된다
 		public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
 			return new SqlSessionTemplate(sqlSessionFactory);
 		}
-		// 꼭  terminal에서 mysql server start 하고  GRANT ALL PRIVILEGES ON board.* TO 'board'@'localhost' IDENTIFIED BY '1234'; 권한을데이타베이스 정해놓고 다줘야된다
-
+		
+		// application.properties에서 언더스코어 투 캐맬케이스로 바꾸고 그 설정값 적용하는 코
+		@Bean
+		@ConfigurationProperties(prefix="mybatis.configuration")
+		public org.apache.ibatis.session.Configuration mybatisConfig(){
+			return new org.apache.ibatis.session.Configuration();
+		}
+		
 }
