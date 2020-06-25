@@ -17,7 +17,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @PropertySource("classpath:/application.properties")
-public class DatabaseConfiguration {
+public class DatabaseConfiguration  {
 
 		@Autowired
 		private ApplicationContext applicationContext;
@@ -50,7 +50,7 @@ public class DatabaseConfiguration {
 			return new SqlSessionTemplate(sqlSessionFactory);
 		}
 		
-		// application.properties에서 언더스코어 투 캐맬케이스로 바꾸고 그 설정값 적용하는 코
+		// application.properties에서 언더스코어 투 캐맬케이스로 바꾸고 그 설정값 적용하는 코드
 		@Bean
 		@ConfigurationProperties(prefix="mybatis.configuration")
 		public org.apache.ibatis.session.Configuration mybatisConfig(){
