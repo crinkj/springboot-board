@@ -2,6 +2,8 @@ package board.board.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,7 @@ import board.board.service.BoardService;
 
 @Controller
 public class BoardController {
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private BoardService boardService;
@@ -24,6 +27,7 @@ public class BoardController {
 	public ModelAndView openBoardList() throws Exception{
 		ModelAndView mv = new ModelAndView("/board/boardList");
 		
+		log.debug("openBoardList");
 		List<BoardDto> list = boardService.selectBoardList();
 		mv.addObject("list",list);
 		
@@ -59,5 +63,23 @@ public class BoardController {
 		mv.addObject("board",board);
 		
 		return mv;
+	}
+	
+	/*
+	 * 게시판 수정
+	 */
+	@RequestMapping("/board/updateBoard.do")
+	public String updateBoard(BoardDto board) throws Exception{
+		boardService.updateBoard(board);
+		return "redirect:/board/openBoardList.do";
+	}
+	
+	/*
+	 * 게시판 삭제
+	 */
+	@RequestMapping("/board/deleteBoard.do")
+	public String deleteBoard(int boardIdx) throws Exception{
+		boardService.deleteBoard(boardIdx);
+		return "redirect:/board/openBoardList.do";
 	}
 }
