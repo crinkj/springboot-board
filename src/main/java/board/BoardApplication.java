@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class BoardApplication {
 
+	//어플리케이션 돌아가게하는것 
 	public static void main(String[] args) {
 		SpringApplication.run(BoardApplication.class, args);
 	}
