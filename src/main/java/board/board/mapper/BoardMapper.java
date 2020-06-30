@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import board.board.dto.BoardDto;
+import board.board.dto.BoardFileDto;
 
 @Mapper
 public interface BoardMapper {
@@ -15,5 +16,6 @@ public interface BoardMapper {
 	BoardDto selectBoardDetail(int board_idx) throws Exception; // 게시판 상세보기
 	void updateBoard(BoardDto board) throws Exception; // 게시판 수정 
 	void deleteBoard(int boardIdx) throws Exception; // 게시판 삭제
+	void insertBoardFileList(List<BoardFileDto> list) throws Exception; // 게시판 첨부파일 추가
 	
 }

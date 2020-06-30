@@ -11,6 +11,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -44,9 +46,9 @@ public class DatabaseConfiguration  {
 			
 			return sqlSessionFactoryBean.getObject();
 		}
-		@Bean
 		
 		// 꼭  terminal에서 mysql server start 하고  GRANT ALL PRIVILEGES ON board.* TO 'board'@'localhost' IDENTIFIED BY '1234'; 권한을데이타베이스 정해놓고 다줘야된다
+		@Bean		
 		public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
 			return new SqlSessionTemplate(sqlSessionFactory);
 		}
@@ -56,6 +58,11 @@ public class DatabaseConfiguration  {
 		@ConfigurationProperties(prefix="mybatis.configuration")
 		public org.apache.ibatis.session.Configuration mybatisConfig(){
 			return new org.apache.ibatis.session.Configuration();
+		}
+		
+		@Bean
+		public PlatformTransactionManager transactionManager() throws Exception{
+			return new DataSourceTransactionManager(dataSource());
 		}
 		
 }
