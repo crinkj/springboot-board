@@ -17,5 +17,6 @@ public interface BoardMapper {
 	void updateBoard(BoardDto board) throws Exception; // 게시판 수정 
 	void deleteBoard(int boardIdx) throws Exception; // 게시판 삭제
 	void insertBoardFileList(List<BoardFileDto> list) throws Exception; // 게시판 첨부파일 추가
+	List<BoardFileDto> selectBoardFileList(int boardIdx) throws Exception;
 	
 }
