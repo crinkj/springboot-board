@@ -3,6 +3,7 @@ package board.board.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import board.board.dto.BoardDto;
 import board.board.dto.BoardFileDto;
@@ -18,5 +19,6 @@ public interface BoardMapper {
 	void deleteBoard(int boardIdx) throws Exception; // 게시판 삭제
 	void insertBoardFileList(List<BoardFileDto> list) throws Exception; // 게시판 첨부파일 추가
 	List<BoardFileDto> selectBoardFileList(int boardIdx) throws Exception;
+	BoardFileDto selectBoardFileInformation(@Param("idx") int idx, @Param("boardIdx") int boardIdx) throws Exception; // 파일 다운로드
 	
 }

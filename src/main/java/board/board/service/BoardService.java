@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import board.board.dto.BoardDto;
+import board.board.dto.BoardFileDto;
 
 public interface BoardService  {
 
@@ -17,4 +18,8 @@ public interface BoardService  {
 	void updateBoard(BoardDto board) throws Exception; // 게시판 수정 
 	
 	void deleteBoard(int boardIdx) throws Exception; // 게시판 삭제
+
+	BoardFileDto selectBoardFileInformation(int idx, int boardIdx) throws Exception; // 파일 다운로드
+
+
 }

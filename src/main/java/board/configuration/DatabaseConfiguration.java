@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -64,5 +65,14 @@ public class DatabaseConfiguration  {
 		public PlatformTransactionManager transactionManager() throws Exception{
 			return new DataSourceTransactionManager(dataSource());
 		}
-		
+		 /**
+	     * HiddenHttpMethodFilter  
+	     */
+	    @Bean
+	    public HiddenHttpMethodFilter hiddenHttpMethodFilter(){
+	        HiddenHttpMethodFilter filter = new HiddenHttpMethodFilter();
+	        return filter;
+	    }
+
+	    
 }
