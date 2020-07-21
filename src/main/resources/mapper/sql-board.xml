@@ -30,7 +30,7 @@
 						#{title},
 						#{contents},
 						NOW(),
-						'admin'
+						#{creatorId}
 						)
 				]]>
 		</insert>
@@ -53,7 +53,7 @@
 				#{item.originalFileName},
 				#{item.storedFilePath},
 				#{item.fileSize},
-				'admin',
+				#{creatorId},
 				NOW()
 			)
 		</foreach>
@@ -89,7 +89,7 @@
 					title = #{title},
 					contents = #{contents},
 					updated_datetime = NOW(),
-					updater_id = 'admin'
+					updater_id = #{updaterId}
 				WHERE 
 					board_idx = #{boardIdx}
 			]]>

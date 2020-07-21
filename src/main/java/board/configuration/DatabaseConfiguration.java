@@ -73,6 +73,7 @@ public class DatabaseConfiguration  {
 	        HiddenHttpMethodFilter filter = new HiddenHttpMethodFilter();
 	        return filter;
 	    }
+	    
 
 	    
 }

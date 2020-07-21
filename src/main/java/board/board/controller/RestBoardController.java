@@ -1,5 +1,12 @@
 package board.board.controller;
 
+import java.io.File;
+import java.net.URLEncoder;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,17 +23,13 @@ import board.board.dto.BoardDto;
 import board.board.dto.BoardFileDto;
 import board.board.service.BoardService;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.net.URLEncoder;
-import java.util.List;
-
 @Controller
 public class RestBoardController {
 	
 	@Autowired
 	private BoardService boardService;
 	
+	//게시판 리스트 보기
 	@RequestMapping(value="/board", method=RequestMethod.GET)
 	public ModelAndView openBoardList() throws Exception{
 		ModelAndView mv = new ModelAndView("/board/restBoardList");
@@ -37,17 +40,21 @@ public class RestBoardController {
 		return mv;
 	}
 	
+	//게시판 작성하기들어가기
 	@RequestMapping(value="/board/write", method=RequestMethod.GET)
 	public String openBoardWrite() throws Exception{
 		return "/board/restBoardWrite";
 	}
 	
+	// 게시판 작성하기
 	@RequestMapping(value="/board/write", method=RequestMethod.POST)
-	public String insertBoard(BoardDto board, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception{
+	public String insertBoard(BoardDto board, MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request) throws Exception{
+		board.setCreatorId(request.getUserPrincipal().getName());
 		boardService.insertBoard(board, multipartHttpServletRequest);
 		return "redirect:/board";
 	}
 	
+	// 게시판 상세보기
 	@RequestMapping(value="/board/{boardIdx}", method=RequestMethod.GET)
 	public ModelAndView openBoardDetail(@PathVariable("boardIdx") int boardIdx, ModelMap model) throws Exception{
 		ModelAndView mv = new ModelAndView("/board/restBoardDetail");
@@ -57,9 +64,11 @@ public class RestBoardController {
 		
 		return mv;
 	}
-	
+	// 게시판 수정하기
 	@RequestMapping(value="/board/{boardIdx}", method=RequestMethod.PUT)
-	public String updateBoard(BoardDto board) throws Exception{
+	public String updateBoard(BoardDto board, HttpServletRequest request) throws Exception{
+		board.setCreatorId(request.getUserPrincipal().getName());
+		System.out.println(board.getCreatorId());
 		boardService.updateBoard(board);
 		return "redirect:/board";
 	}
@@ -72,8 +81,6 @@ public class RestBoardController {
 	
 	@RequestMapping(value="/board/file", method=RequestMethod.GET)
 	public void downloadBoardFile(@RequestParam("idx") int idx, @RequestParam("boardIdx") int boardIdx, HttpServletResponse response) throws Exception{
-		System.out.println(idx);
-		System.out.println(boardIdx);
 		BoardFileDto boardFile = boardService.selectBoardFileInformation(idx, boardIdx);
 		if(ObjectUtils.isEmpty(boardFile) == false) {
 			String fileName = boardFile.getOriginalFileName();
